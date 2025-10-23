@@ -1,0 +1,10 @@
+notify = ["java", "-jar", "/Users/ontic/.codex/slack-notifier.jar"]
+
+experimental_use_rmcp_client = true
+
+[mcp_servers.atlassian_rovo]
+command = "npx"
+args = ["-y", "mcp-remote", "https://mcp.atlassian.com/v1/sse", "--transport", "sse-only", "--debug"]
+
+[mcp_servers.gitlab]
+command = "/opt/homebrew/bin/gitlab-mcp"

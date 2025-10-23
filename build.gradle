@@ -40,9 +40,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 tasks.register('codexIndexShadow', ShadowJar) {
     group = 'build'
     description = 'Build fat jar for CodexIndexGenerator'
-    archiveBaseName.set('codex-index-generator')
-    archiveClassifier.set('')
-    archiveVersion.set(project.version)
+    archiveFileName.set('codex-index-generator.jar')
     from(sourceSets.main.output)
     configurations = [project.configurations.runtimeClasspath]
     manifest {
@@ -53,9 +51,7 @@ tasks.register('codexIndexShadow', ShadowJar) {
 tasks.register('slackNotifierShadow', ShadowJar) {
     group = 'build'
     description = 'Build fat jar for SlackNotifier'
-    archiveBaseName.set('slack-notifier')
-    archiveClassifier.set('')
-    archiveVersion.set(project.version)
+    archiveFileName.set('slack-notifier.jar')
     from(sourceSets.main.output)
     configurations = [project.configurations.runtimeClasspath]
     manifest {
