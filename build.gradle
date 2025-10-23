@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.5.6'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group = 'org.jaysabva'
+version = '0.0.1-SNAPSHOT'
+description = 'Codex-Setup'
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(17) }
+}
+
+repositories { mavenCentral() }
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') { useJUnitPlatform() }
+
+// ---- Spring Boot app fat jar (unchanged) ----
+tasks.named('bootJar') {
+    manifest {
+        attributes(
+                'Main-Class': 'org.springframework.boot.loader.launch.JarLauncher' // Boot sets this anyway
+        )
+    }
+}
+
+// ---- Standalone CLI fat jars ----
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
+tasks.register('codexIndexShadow', ShadowJar) {
+    group = 'build'
+    description = 'Build fat jar for CodexIndexGenerator'
+    archiveBaseName.set('codex-index-generator')
+    archiveClassifier.set('')
+    archiveVersion.set(project.version)
+    from(sourceSets.main.output)
+    configurations = [project.configurations.runtimeClasspath]
+    manifest {
+        attributes 'Main-Class': 'org.jaysabva.codexsetup.CodexIndexGenerator'
+    }
+}
+
+tasks.register('slackNotifierShadow', ShadowJar) {
+    group = 'build'
+    description = 'Build fat jar for SlackNotifier'
+    archiveBaseName.set('slack-notifier')
+    archiveClassifier.set('')
+    archiveVersion.set(project.version)
+    from(sourceSets.main.output)
+    configurations = [project.configurations.runtimeClasspath]
+    manifest {
+        attributes 'Main-Class': 'org.jaysabva.codexsetup.SlackNotifier'
+    }
+}
