@@ -16,6 +16,8 @@ cp codex_session_manager.sh ~/.codex/
 mkdir -p ~/.codex/prompts
 cp -r prompts ~/.codex/prompts
 
+brew tap fforster/gitlab-mcp https://gitlab.com/fforster/homebrew-gitlab-mcp.git
+
 #install gitlab mcp
 brew install gitlab-mcp
 
