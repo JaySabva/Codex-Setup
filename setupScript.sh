@@ -19,4 +19,6 @@ cp -r prompts ~/.codex/prompts
 #install gitlab mcp
 brew install gitlab-mcp
 
+gitlab-mcp auth
+
 mv config.toml ~/.codex/
